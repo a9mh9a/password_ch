@@ -64,150 +64,6 @@
             }
         }
         
-        /* شاشة التثبيت - تظهر فقط عند فتح التطبيق كـ PWA */
-        .install-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--primary-color), var(--dark-color), var(--purple-color));
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-            z-index: 10000;
-            transition: opacity 0.5s, transform 0.5s;
-        }
-        
-        .install-screen.hidden {
-            opacity: 0;
-            transform: translateY(20px);
-            pointer-events: none;
-        }
-        
-        .install-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-        
-        .install-screen h1 {
-            font-size: 2rem;
-            margin-bottom: 15px;
-        }
-        
-        .install-screen p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            max-width: 400px;
-            line-height: 1.6;
-        }
-        
-        .start-app-btn {
-            background: white;
-            color: var(--primary-color);
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        
-        .start-app-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-        }
-        
-        /* شاشة المتصفح - تظهر فقط عندما يكون في المتصفح */
-        .browser-warning {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: linear-gradient(135deg, var(--warning-color), var(--warning-dark));
-            color: white;
-            padding: 15px 20px;
-            text-align: center;
-            font-size: 0.9rem;
-            display: none;
-            z-index: 9999;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-        }
-        
-        .browser-warning.show {
-            display: block;
-            animation: slideDown 0.5s ease-out;
-        }
-        
-        @keyframes slideDown {
-            from { transform: translateY(-100%); }
-            to { transform: translateY(0); }
-        }
-        
-        .install-instructions {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-            max-width: 400px;
-            text-align: right;
-        }
-        
-        .install-instructions h3 {
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-        }
-        
-        .instructions-list {
-            list-style: none;
-            text-align: right;
-        }
-        
-        .instructions-list li {
-            margin-bottom: 15px;
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-        }
-        
-        .instructions-list li i {
-            color: white;
-            font-size: 1.2rem;
-            margin-top: 2px;
-        }
-        
-        .hide-instructions {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 1px solid white;
-            padding: 8px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            margin-top: 15px;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-        }
-        
-        .hide-instructions:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-        
         .container {
             width: 100%;
             max-width: 100%;
@@ -1078,40 +934,8 @@
     </style>
 </head>
 <body>
-    <!-- شاشة تظهر فقط عند فتح التطبيق من الشاشة الرئيسية -->
-    <div class="install-screen" id="installScreen">
-        <div class="install-icon">
-            <i class="fas fa-shield-alt"></i>
-        </div>
-        <h1>مرحباً بك في تطبيق فحص كلمات المرور</h1>
-        <p>تم تثبيت التطبيق بنجاح على شاشتك الرئيسية. يمكنك الآن استخدامه كتطبيق مستقل بدون شريط المتصفح.</p>
-        
-        <div class="install-instructions" id="installInstructions">
-            <h3>مزايا التثبيت على الشاشة الرئيسية:</h3>
-            <ul class="instructions-list">
-                <li><i class="fas fa-check-circle"></i> وصول سريع من الشاشة الرئيسية</li>
-                <li><i class="fas fa-check-circle"></i> تجربة استخدام كاملة بدون شريط المتصفح</li>
-                <li><i class="fas fa-check-circle"></i> تشغيل بدون اتصال بالإنترنت</li>
-                <li><i class="fas fa-check-circle"></i> خصوصية وأمان كامل لكلمات المرور</li>
-            </ul>
-        </div>
-        
-        <button class="start-app-btn" id="startAppBtn">
-            <i class="fas fa-rocket"></i> بدء استخدام التطبيق
-        </button>
-        
-        <button class="hide-instructions" id="hideInstructionsBtn" style="display: none;">
-            إخفاء التعليمات
-        </button>
-    </div>
-    
-    <!-- رسالة تظهر فقط عند فتح التطبيق في المتصفح -->
-    <div class="browser-warning" id="browserWarning">
-        <p><i class="fas fa-info-circle"></i> للحصول على أفضل تجربة، ننصحك بتثبيت التطبيق على الشاشة الرئيسية</p>
-    </div>
-    
     <!-- التطبيق الرئيسي -->
-    <div class="container" id="mainApp" style="display: none;">
+    <div class="container" id="mainApp">
         <header>
             <div class="header-content">
                 <h1><i class="fas fa-shield-alt"></i> نظام فحص قوة كلمات المرور المتقدم</h1>
@@ -1289,7 +1113,6 @@
             <p>© 2025 نظام فحص قوة كلمات المرور المتقدم - أداة تعليمية للأغراض الأمنية</p>
             <div class="developer-info">
                 <p><strong>المطور:</strong> المهندس حسين محمد</p>
-                <!-- <p><strong>سنة التطوير:</strong> 2025</p> -->
             </div>
             <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">جميع العمليات تتم على جهازك ولا يتم إرسال كلمات المرور إلى أي خادم</p>
         </footer>
@@ -1328,14 +1151,6 @@
         const weakPasswords = document.getElementById('weakPasswords');
         const strongPasswords = document.getElementById('strongPasswords');
         
-        // عناصر الشاشة الجديدة
-        const installScreen = document.getElementById('installScreen');
-        const browserWarning = document.getElementById('browserWarning');
-        const mainApp = document.getElementById('mainApp');
-        const startAppBtn = document.getElementById('startAppBtn');
-        const installInstructions = document.getElementById('installInstructions');
-        const hideInstructionsBtn = document.getElementById('hideInstructionsBtn');
-        
         let currentGeneratedPassword = '';
         let autoHideTimeout = null;
         let userStats = {
@@ -1352,9 +1167,6 @@
             loadStats();
             updateStatsDisplay();
             
-            // التحقق إذا كان التطبيق يعمل كـ PWA أم في المتصفح
-            detectAppMode();
-            
             // إعداد المستمعين للأحداث
             setupEventListeners();
             
@@ -1370,79 +1182,8 @@
             }, { passive: false });
         });
         
-        // ============== اكتشاف وضع التطبيق ==============
-        function detectAppMode() {
-            // طرق للتحقق إذا كان التطبيق يعمل كـ PWA
-            const isInStandaloneMode = () => {
-                return (window.matchMedia('(display-mode: standalone)').matches) ||
-                       (window.navigator.standalone) ||
-                       (document.referrer.includes('android-app://')) ||
-                       (window.location.href.includes('standalone=true'));
-            };
-            
-            // التحقق من المتصفح
-            const isMobileBrowser = () => {
-                return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            };
-            
-            // التحقق من وضع التطبيق
-            const isStandalone = isInStandaloneMode();
-            
-            if (isStandalone) {
-                // إذا كان التطبيق مثبتاً (PWA)
-                console.log('التطبيق يعمل كـ PWA (مثبت على الشاشة الرئيسية)');
-                browserWarning.style.display = 'none';
-                
-                // عرض شاشة التثبيت للترحيب
-                setTimeout(() => {
-                    installScreen.classList.remove('hidden');
-                }, 500);
-            } else {
-                // إذا كان في المتصفح
-                console.log('التطبيق يعمل في المتصفح');
-                
-                // إظهار التطبيق مباشرة بدون شاشة ترحيب
-                installScreen.style.display = 'none';
-                mainApp.style.display = 'block';
-                
-                // إظهار رسالة المتصفح إذا كان على هاتف
-                if (isMobileBrowser()) {
-                    setTimeout(() => {
-                        browserWarning.classList.add('show');
-                        
-                        // إخفاء الرسالة بعد 10 ثواني
-                        setTimeout(() => {
-                            browserWarning.classList.remove('show');
-                        }, 10000);
-                    }, 1000);
-                }
-            }
-        }
-        
         // ============== إعداد المستمعين للأحداث ==============
         function setupEventListeners() {
-            // أحداث الشاشة الجديدة
-            startAppBtn.addEventListener('click', () => {
-                installScreen.classList.add('hidden');
-                setTimeout(() => {
-                    installScreen.style.display = 'none';
-                    mainApp.style.display = 'block';
-                }, 500);
-            });
-            
-            hideInstructionsBtn.addEventListener('click', () => {
-                installInstructions.style.display = 'none';
-                hideInstructionsBtn.style.display = 'none';
-            });
-            
-            // إظهار/إخفاء تعليمات التثبيت عند النقر على الشاشة
-            installScreen.addEventListener('click', (e) => {
-                if (e.target === installScreen && installInstructions.style.display === 'none') {
-                    installInstructions.style.display = 'block';
-                    hideInstructionsBtn.style.display = 'block';
-                }
-            });
-            
             // أحداث التطبيق الرئيسي
             checkStrengthBtn.addEventListener('click', checkPasswordStrength);
             checkBreachBtn.addEventListener('click', checkPasswordBreach);
