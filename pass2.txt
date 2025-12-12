@@ -2,9 +2,20 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>نظام فحص قوة كلمات المرور</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- أيقونة الموقع في المتصفح العادي -->
+<link rel="icon" type="image/png" href="images/lock.png">
+
+<!-- أيقونة الشاشة الرئيسية للأيفون -->
+<link rel="apple-touch-icon" href="images/lock.png">
+
+<!-- إذا أردت دعم Android PWA -->
+<link rel="manifest" href="manifest.json">
+
+
     <style>
         :root {
             --primary-color: #3498db;
@@ -35,20 +46,40 @@
             background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
             color: var(--dark-color);
             min-height: 100vh;
-            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 0;
+        }
+        
+        @supports (padding: max(0px)) {
+            body {
+                padding-left: min(0vmin, env(safe-area-inset-left));
+                padding-right: min(0vmin, env(safe-area-inset-right));
+                padding-top: min(0vmin, env(safe-area-inset-top));
+                padding-bottom: min(0vmin, env(safe-area-inset-bottom));
+            }
         }
         
         .container {
             width: 100%;
-            max-width: 900px;
+            max-width: 100%;
+            min-height: 100vh;
             background-color: rgba(255, 255, 255, 0.97);
-            border-radius: 25px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
             overflow: hidden;
             animation: fadeIn 0.8s ease-out;
+        }
+        
+        @media (min-width: 768px) {
+            body {
+                padding: 20px;
+            }
+            .container {
+                max-width: 900px;
+                min-height: auto;
+                border-radius: 25px;
+                box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            }
         }
         
         @keyframes fadeIn {
@@ -59,10 +90,16 @@
         header {
             background: linear-gradient(135deg, var(--primary-color), var(--dark-color), var(--purple-color));
             color: white;
-            padding: 35px;
+            padding: 25px 20px;
             text-align: center;
             position: relative;
             overflow: hidden;
+        }
+        
+        @media (min-width: 768px) {
+            header {
+                padding: 35px;
+            }
         }
         
         header::before {
@@ -82,64 +119,85 @@
         }
         
         header h1 {
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             margin-bottom: 15px;
             text-shadow: 0 3px 8px rgba(0,0,0,0.3);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        @media (min-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
         }
         
         header p {
-            font-size: 1.2rem;
+            font-size: 1rem;
             opacity: 0.95;
             max-width: 700px;
             margin: 0 auto;
             line-height: 1.6;
         }
         
-        .user-points {
-            position: absolute;
-            left: 30px;
-            top: 30px;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 8px 15px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            backdrop-filter: blur(10px);
+        @media (min-width: 768px) {
+            header p {
+                font-size: 1.2rem;
+            }
         }
         
         .main-content {
-            padding: 30px;
+            padding: 20px;
+        }
+        
+        @media (min-width: 768px) {
+            .main-content {
+                padding: 30px;
+            }
         }
         
         .section {
-            margin-bottom: 30px;
-            padding: 25px;
+            margin-bottom: 25px;
+            padding: 20px;
             background: white;
-            border-radius: 18px;
+            border-radius: 15px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.08);
             transition: transform 0.4s, box-shadow 0.4s;
             border: 1px solid rgba(0,0,0,0.05);
         }
         
+        @media (min-width: 768px) {
+            .section {
+                margin-bottom: 30px;
+                padding: 25px;
+                border-radius: 18px;
+            }
+        }
+        
         .section:hover {
-            transform: translateY(-8px);
+            transform: translateY(-5px);
             box-shadow: 0 15px 35px rgba(0,0,0,0.12);
         }
         
         .section-title {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             color: var(--dark-color);
             display: flex;
             align-items: center;
             gap: 12px;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             padding-bottom: 15px;
             border-bottom: 2px solid var(--light-color);
+        }
+        
+        @media (min-width: 768px) {
+            .section-title {
+                font-size: 1.5rem;
+                margin-bottom: 25px;
+            }
         }
         
         .section-title i {
@@ -151,11 +209,18 @@
         
         .input-wrapper {
             display: flex;
+            flex-direction: column;
             margin-bottom: 20px;
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 6px 20px rgba(0,0,0,0.1);
             transition: box-shadow 0.3s;
+        }
+        
+        @media (min-width: 768px) {
+            .input-wrapper {
+                flex-direction: row;
+            }
         }
         
         .input-wrapper:focus-within {
@@ -172,13 +237,22 @@
         
         .password-field input {
             width: 100%;
-            padding: 20px 60px 20px 25px;
+            padding: 18px 60px 18px 25px;
             border: none;
             background: transparent;
-            font-size: 1.1rem;
+            font-size: 1rem;
             outline: none;
             font-family: monospace;
             letter-spacing: 1px;
+            border-radius: 15px;
+        }
+        
+        @media (min-width: 768px) {
+            .password-field input {
+                padding: 20px 60px 20px 25px;
+                font-size: 1.1rem;
+                border-radius: 0;
+            }
         }
         
         .password-actions {
@@ -205,7 +279,7 @@
         }
         
         .btn {
-            padding: 0 30px;
+            padding: 18px;
             color: white;
             border: none;
             cursor: pointer;
@@ -218,6 +292,18 @@
             gap: 10px;
             position: relative;
             overflow: hidden;
+            width: 100%;
+            border-radius: 15px;
+            margin-top: 10px;
+        }
+        
+        @media (min-width: 768px) {
+            .btn {
+                padding: 0 30px;
+                margin-top: 0;
+                width: auto;
+                border-radius: 0;
+            }
         }
         
         .btn::after {
@@ -329,29 +415,35 @@
         
         .strength-text {
             font-weight: bold;
-            font-size: 1.4rem;
-            padding: 12px 25px;
+            font-size: 1.2rem;
+            padding: 12px 20px;
             border-radius: 12px;
             transition: all 0.5s;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            flex: 1;
+            min-width: 100%;
+            text-align: center;
         }
         
-        .crack-time {
-            background: var(--dark-color);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        @media (min-width: 768px) {
+            .strength-text {
+                font-size: 1.4rem;
+                min-width: auto;
+                text-align: right;
+            }
         }
         
         .strength-details {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: 1fr;
             gap: 15px;
             margin-top: 25px;
+        }
+        
+        @media (min-width: 768px) {
+            .strength-details {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
         }
         
         .strength-item {
@@ -466,6 +558,7 @@
             border: 2px dashed var(--primary-color);
             position: relative;
             word-break: break-all;
+            padding-right: 70px;
         }
         
         .password-copy-btn {
@@ -503,9 +596,15 @@
         
         .options-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: 1fr;
             gap: 15px;
             margin-bottom: 20px;
+        }
+        
+        @media (min-width: 768px) {
+            .options-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
         }
         
         .option-group {
@@ -530,9 +629,16 @@
         
         .action-buttons {
             display: flex;
+            flex-direction: column;
             gap: 15px;
             margin-top: 25px;
             animation: slideIn 0.5s ease-out;
+        }
+        
+        @media (min-width: 768px) {
+            .action-buttons {
+                flex-direction: row;
+            }
         }
         
         .action-buttons button {
@@ -654,8 +760,15 @@
         
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        
+        @media (min-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 20px;
+            }
         }
         
         .stat-item {
@@ -673,10 +786,16 @@
         }
         
         .stat-value {
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: bold;
             margin-bottom: 8px;
             text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        @media (min-width: 768px) {
+            .stat-value {
+                font-size: 2.2rem;
+            }
         }
         
         .stat-label {
@@ -690,6 +809,14 @@
             background: linear-gradient(135deg, var(--dark-color), var(--dark-light));
             color: white;
             font-size: 1rem;
+        }
+        
+        .developer-info {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 0.9rem;
         }
         
         .toast {
@@ -708,6 +835,13 @@
             transform: translateY(100px);
             opacity: 0;
             transition: transform 0.3s, opacity 0.3s;
+            max-width: 90%;
+        }
+        
+        @media (min-width: 768px) {
+            .toast {
+                max-width: 400px;
+            }
         }
         
         .toast.show {
@@ -727,161 +861,72 @@
             background: linear-gradient(135deg, var(--danger-color), var(--danger-dark));
         }
         
-        .achievement-notification {
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            background: linear-gradient(135deg, #ff9a00, #ff5e00);
-            color: white;
-            padding: 20px 25px;
-            border-radius: 15px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            animation: slideInRight 0.5s ease;
-            z-index: 1001;
-            max-width: 400px;
-        }
-        
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        
-        .achievement-icon {
-            font-size: 2rem;
-            color: gold;
-        }
-        
-        .achievement-content {
-            flex: 1;
-        }
-        
-        .achievement-points {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-        }
-        
-        .history-panel {
-            max-height: 300px;
-            overflow-y: auto;
+        .password-security-info {
+            margin-top: 15px;
             padding: 15px;
-            background: var(--light-color);
-            border-radius: 12px;
-            margin-top: 20px;
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border-radius: 10px;
+            border-right: 4px solid var(--primary-color);
         }
         
-        .history-item {
-            padding: 12px 15px;
-            background: white;
-            border-radius: 10px;
+        .password-security-info h4 {
+            color: var(--primary-dark);
             margin-bottom: 10px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-            transition: transform 0.3s;
+            gap: 10px;
         }
         
-        .history-item:hover {
-            transform: translateX(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                max-width: 95%;
-                border-radius: 20px;
-            }
-            
-            header {
-                padding: 25px 20px;
-            }
-            
-            header h1 {
-                font-size: 2rem;
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .user-points {
-                position: relative;
-                left: auto;
-                top: auto;
-                margin: 15px auto;
-                width: fit-content;
-            }
-            
-            .main-content {
-                padding: 20px;
-            }
-            
-            .section {
-                padding: 20px;
-            }
-            
-            .input-wrapper {
-                flex-direction: column;
-                border-radius: 15px;
-            }
-            
-            .password-field input {
-                border-radius: 15px;
-                padding: 18px 50px 18px 25px;
-            }
-            
-            .btn {
-                border-radius: 15px;
-                padding: 18px;
-                margin-top: 10px;
-                width: 100%;
-            }
-            
-            .strength-details {
-                grid-template-columns: 1fr;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-        
-        @media (max-width: 480px) {
+        /* تطبيق على الهاتف - إخفاء شريط التمرير */
+        @media (max-width: 767px) {
             body {
-                padding: 10px;
+                -webkit-overflow-scrolling: touch;
             }
             
-            header h1 {
-                font-size: 1.7rem;
+            .container {
+                width: 100vw;
+                height: 100vh;
+                overflow-y: auto;
+                border-radius: 0;
             }
             
-            header p {
-                font-size: 1rem;
+            /* تحسين اللمس للعناصر */
+            .btn, .password-action-btn, .password-copy-btn {
+                min-height: 44px;
+                min-width: 44px;
             }
             
-            .section-title {
-                font-size: 1.3rem;
+            /* زيادة حجم خط الإدخال للهواتف */
+            .password-field input {
+                font-size: 16px; /* منع التكبير في iOS */
             }
             
-            .strength-info {
-                flex-direction: column;
-                align-items: stretch;
+            /* تحسين المسافات للشاشات الصغيرة */
+            .section {
+                margin-bottom: 20px;
+                padding: 15px;
             }
             
-            .crack-time {
-                justify-content: center;
+            .strength-text {
+                font-size: 1.1rem;
+                padding: 10px 15px;
             }
             
-            .stats-grid {
-                grid-template-columns: 1fr;
+            .generated-password {
+                font-size: 1.2rem;
+                padding: 20px 60px 20px 20px;
             }
+            
+            .password-copy-btn {
+                padding: 10px 15px;
+                font-size: 0.8rem;
+            }
+        }
+        
+        /* منع التمرير الأفقي على الهواتف */
+        html, body {
+            overflow-x: hidden;
+            max-width: 100%;
         }
     </style>
 </head>
@@ -889,10 +934,6 @@
     <div class="container">
         <header>
             <div class="header-content">
-                <div class="user-points">
-                    <i class="fas fa-trophy"></i>
-                    <span id="userPoints">0 نقطة</span>
-                </div>
                 <h1><i class="fas fa-shield-alt"></i> نظام فحص قوة كلمات المرور المتقدم</h1>
                 <p>أداة شاملة لفحص أمان كلمات المرور، اكتشاف التسريبات، وتوليد كلمات مرور قوية مع تحليل تفصيلي</p>
             </div>
@@ -921,6 +962,11 @@
                 <div class="live-strength-meter">
                     <div class="live-fill" id="liveStrengthFill"></div>
                 </div>
+                
+                <div class="password-security-info">
+                    <h4><i class="fas fa-info-circle"></i> معلومات أمنية</h4>
+                    <p>جميع عمليات الفحص تتم محلياً على جهازك ولا يتم إرسال أي بيانات إلى الخوادم الخارجية. كلمات المرور التي تدخلها لا يتم حفظها أو تخزينها.</p>
+                </div>
             </section>
             
             <!-- قسم تحليل قوة كلمة المرور -->
@@ -931,10 +977,6 @@
                 </div>
                 <div class="strength-info">
                     <div class="strength-text" id="strengthText">لم يتم فحص كلمة المرور بعد</div>
-                    <div class="crack-time">
-                        <i class="fas fa-clock"></i>
-                        <span>الوقت المتوقع للاختراق: <strong id="crackTime">---</strong></span>
-                    </div>
                 </div>
                 
                 <div class="strength-details" id="strengthDetails">
@@ -965,11 +1007,11 @@
             <section class="section password-generator-section">
                 <h2 class="section-title"><i class="fas fa-magic"></i> مولد كلمات مرور قوية</h2>
                 
-                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                    <button id="generateRandomBtn" class="btn btn-success" style="flex: 1;">
+                <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+                    <button id="generateRandomBtn" class="btn btn-success">
                         <i class="fas fa-bolt"></i> توليد عشوائي
                     </button>
-                    <button id="generateMemorableBtn" class="btn btn-purple" style="flex: 1;">
+                    <button id="generateMemorableBtn" class="btn btn-purple">
                         <i class="fas fa-brain"></i> توليد سهل الحفظ
                     </button>
                 </div>
@@ -1064,7 +1106,11 @@
         </div>
         
         <footer>
-            <p>© 2024 نظام فحص قوة كلمات المرور المتقدم - أداة تعليمية للأغراض الأمنية</p>
+            <p>© 2025 نظام فحص قوة كلمات المرور المتقدم - أداة تعليمية للأغراض الأمنية</p>
+            <div class="developer-info">
+                <p><strong>المطور:</strong> المهندس حسين محمد</p>
+                <!-- <p><strong>سنة التطوير:</strong> 2025</p> -->
+            </div>
             <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">جميع العمليات تتم على جهازك ولا يتم إرسال كلمات المرور إلى أي خادم</p>
         </footer>
     </div>
@@ -1078,7 +1124,6 @@
         const liveStrengthFill = document.getElementById('liveStrengthFill');
         const strengthFill = document.getElementById('strengthFill');
         const strengthText = document.getElementById('strengthText');
-        const crackTime = document.getElementById('crackTime');
         const strengthDetails = document.getElementById('strengthDetails');
         const improvementSuggestions = document.getElementById('improvementSuggestions');
         const suggestionList = document.getElementById('suggestionList');
@@ -1098,7 +1143,6 @@
         const actionButtons = document.getElementById('actionButtons');
         const usePasswordBtn = document.getElementById('usePasswordBtn');
         const dontUsePasswordBtn = document.getElementById('dontUsePasswordBtn');
-        const userPoints = document.getElementById('userPoints');
         const totalChecks = document.getElementById('totalChecks');
         const averageStrength = document.getElementById('averageStrength');
         const weakPasswords = document.getElementById('weakPasswords');
@@ -1107,12 +1151,10 @@
         let currentGeneratedPassword = '';
         let autoHideTimeout = null;
         let userStats = {
-            points: 0,
             totalChecks: 0,
             totalStrength: 0,
             weakCount: 0,
             strongCount: 0,
-            achievements: [],
             history: []
         };
         
@@ -1127,6 +1169,11 @@
             if (savedHistory) {
                 userStats.history = JSON.parse(savedHistory);
             }
+            
+            // منع التمرير الأفقي على الهواتف
+            document.addEventListener('touchmove', function(e) {
+                if (e.touches.length > 1) e.preventDefault();
+            }, { passive: false });
         });
         
         // ============== إعداد المستمعين للأحداث ==============
@@ -1159,6 +1206,16 @@
                     generatorOptions.classList.add('active');
                 });
             });
+            
+            // تحسين تجربة اللمس على الهواتف
+            document.querySelectorAll('.btn, .password-action-btn, .password-copy-btn').forEach(btn => {
+                btn.addEventListener('touchstart', function() {
+                    this.style.opacity = '0.8';
+                });
+                btn.addEventListener('touchend', function() {
+                    this.style.opacity = '1';
+                });
+            });
         }
         
         // ============== وظائف إدارة الإحصائيات ==============
@@ -1174,7 +1231,6 @@
         }
         
         function updateStatsDisplay() {
-            userPoints.textContent = `${userStats.points} نقطة`;
             totalChecks.textContent = userStats.totalChecks;
             
             const avg = userStats.totalChecks > 0 ? 
@@ -1240,44 +1296,6 @@
             return patterns;
         }
         
-        function calculateCrackTime(password) {
-            // حساب حجم مجموعة الأحرف
-            let charsetSize = 0;
-            if (/[a-z]/.test(password)) charsetSize += 26;
-            if (/[A-Z]/.test(password)) charsetSize += 26;
-            if (/\d/.test(password)) charsetSize += 10;
-            if (/[^a-zA-Z0-9]/.test(password)) charsetSize += 32;
-            
-            // إذا لم يكن هناك أحرف، تكون القوة صفر
-            if (charsetSize === 0) return "لحظات";
-            
-            // عدد التخمينات في الثانية (10^12 تخمين/ثانية لحاسوب قوي)
-            const guessesPerSecond = Math.pow(10, 12);
-            
-            // عدد الاحتمالات
-            const possibleCombinations = Math.pow(charsetSize, password.length);
-            
-            // الوقت بالثواني
-            let seconds = possibleCombinations / guessesPerSecond;
-            
-            // تحويل إلى وحدات زمنية
-            if (seconds < 1) {
-                return "أقل من ثانية";
-            } else if (seconds < 60) {
-                return `${Math.round(seconds)} ثانية`;
-            } else if (seconds < 3600) {
-                return `${Math.round(seconds/60)} دقيقة`;
-            } else if (seconds < 86400) {
-                return `${Math.round(seconds/3600)} ساعة`;
-            } else if (seconds < 31536000) {
-                return `${Math.round(seconds/86400)} يوم`;
-            } else if (seconds < 3153600000) {
-                return `${Math.round(seconds/31536000)} سنة`;
-            } else {
-                return `${Math.round(seconds/3153600000)} ألف سنة`;
-            }
-        }
-        
         // ============== تحديث واجهة القوة ==============
         function updateLiveStrength() {
             const password = passwordInput.value;
@@ -1312,13 +1330,12 @@
             // تحليل كلمة المرور
             const analysis = analyzePassword(password);
             const patterns = detectCommonPatterns(password);
-            const estimatedTime = calculateCrackTime(password);
             
             // تحديث الإحصائيات
             updateStats(analysis.score);
             
             // تحديث واجهة المستخدم
-            updateStrengthUI(analysis, patterns, estimatedTime);
+            updateStrengthUI(analysis, patterns);
             
             // إظهار اقتراحات التحسين
             showImprovementSuggestions(analysis);
@@ -1330,7 +1347,7 @@
             checkAchievements(password, analysis);
         }
         
-        function updateStrengthUI(analysis, patterns, estimatedTime) {
+        function updateStrengthUI(analysis, patterns) {
             // تحديث شريط القوة الرئيسي
             strengthFill.style.width = `${analysis.score}%`;
             
@@ -1363,9 +1380,6 @@
             strengthText.style.color = color;
             strengthText.style.background = bgColor;
             strengthFill.style.background = strengthColor;
-            
-            // تحديث وقت الاختراق
-            crackTime.textContent = estimatedTime;
             
             // تحديث التفاصيل
             updateStrengthDetails(analysis, patterns);
@@ -1518,7 +1532,6 @@
                             <small>يوصى بشدة بتغييرها فوراً لحماية حسابك.</small>
                         </div>
                     `;
-                    addPoints(-10);
                 } else {
                     breachResult.className = 'breach-result breach-not-found';
                     breachResult.innerHTML = `
@@ -1529,7 +1542,6 @@
                             <small>استمر في استخدام كلمات مرور قوية وآمنة.</small>
                         </div>
                     `;
-                    addPoints(20);
                 }
             }, 2000);
         }
@@ -1606,7 +1618,7 @@
             currentGeneratedPassword = password;
             generatedPassword.innerHTML = `
                 <i class="fas fa-key"></i> ${password}
-                <button class="password-copy-btn" onclick="copyToClipboard('${password}')">
+                <button class="password-copy-btn" onclick="copyToClipboard('${password.replace(/'/g, "\\'")}')">
                     <i class="fas fa-copy"></i> نسخ
                 </button>
             `;
@@ -1680,7 +1692,6 @@
             checkPasswordStrength();
             hideGeneratedPassword();
             showToast('تم استخدام كلمة المرور المولدة', 'success');
-            addPoints(5);
         }
         
         function hideGeneratedPassword() {
@@ -1689,18 +1700,7 @@
             generatorOptions.classList.remove('active');
         }
         
-        // ============== نظام النقاط والإنجازات ==============
-        function addPoints(points) {
-            userStats.points += points;
-            userStats.points = Math.max(0, userStats.points);
-            updateStatsDisplay();
-            saveStats();
-            
-            if (points > 0) {
-                showToast(`+${points} نقطة!`, 'success');
-            }
-        }
-        
+        // ============== نظام الإحصائيات ==============
         function updateStats(strength) {
             userStats.totalChecks++;
             userStats.totalStrength += strength;
@@ -1709,7 +1709,6 @@
                 userStats.weakCount++;
             } else if (strength >= 80) {
                 userStats.strongCount++;
-                addPoints(10);
             }
             
             updateStatsDisplay();
@@ -1717,78 +1716,18 @@
         }
         
         function checkAchievements(password, analysis) {
-            const newAchievements = [];
-            
-            if (analysis.score >= 90 && !userStats.achievements.includes('strong_password')) {
-                newAchievements.push({
-                    id: 'strong_password',
-                    title: 'كلمة مرور قوية',
-                    description: 'لقد أنشأت كلمة مرور بقوة 90% أو أعلى!',
-                    points: 50
-                });
+            // إنجازات مبسطة
+            if (analysis.score >= 90) {
+                showToast('إنجاز! كلمة مرور قوية جداً', 'success');
             }
             
-            if (password.length >= 20 && !userStats.achievements.includes('long_password')) {
-                newAchievements.push({
-                    id: 'long_password',
-                    title: 'كلمة مرور طويلة',
-                    description: 'أنشأت كلمة مرور بطول 20 حرفاً أو أكثر!',
-                    points: 30
-                });
+            if (password.length >= 20) {
+                showToast('إنجاز! كلمة مرور طويلة', 'success');
             }
             
-            if (analysis.uniqueChars === password.length && !userStats.achievements.includes('unique_password')) {
-                newAchievements.push({
-                    id: 'unique_password',
-                    title: 'كلمة مرور فريدة',
-                    description: 'جميع أحرف كلمة المرور مختلفة!',
-                    points: 40
-                });
+            if (analysis.uniqueChars === password.length) {
+                showToast('إنجاز! جميع الأحرف مختلفة', 'success');
             }
-            
-            if (userStats.totalChecks >= 10 && !userStats.achievements.includes('frequent_user')) {
-                newAchievements.push({
-                    id: 'frequent_user',
-                    title: 'مستخدم نشط',
-                    description: 'فحصت 10 كلمات مرور أو أكثر!',
-                    points: 25
-                });
-            }
-            
-            // منح الإنجازات الجديدة
-            newAchievements.forEach(achievement => {
-                userStats.achievements.push(achievement.id);
-                addPoints(achievement.points);
-                showAchievement(achievement);
-            });
-            
-            if (newAchievements.length > 0) {
-                saveStats();
-            }
-        }
-        
-        function showAchievement(achievement) {
-            const achievementDiv = document.createElement('div');
-            achievementDiv.className = 'achievement-notification';
-            achievementDiv.innerHTML = `
-                <div class="achievement-icon">
-                    <i class="fas fa-trophy"></i>
-                </div>
-                <div class="achievement-content">
-                    <strong>${achievement.title}</strong><br>
-                    <small>${achievement.description}</small>
-                </div>
-                <div class="achievement-points">
-                    +${achievement.points}
-                </div>
-            `;
-            
-            document.body.appendChild(achievementDiv);
-            
-            setTimeout(() => {
-                achievementDiv.style.animation = 'slideInRight 0.5s ease reverse';
-                setTimeout(() => achievementDiv.remove(), 500);
-            }, 5000);
         }
         
         // ============== وظائف مساعدة ==============
@@ -1810,12 +1749,21 @@
         }
         
         function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
+            // إنشاء عنصر نصي مؤقت
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
                 showToast('تم نسخ كلمة المرور إلى الحافظة', 'success');
-            }).catch(err => {
+            } catch (err) {
                 console.error('Failed to copy: ', err);
                 showToast('فشل نسخ كلمة المرور', 'error');
-            });
+            } finally {
+                document.body.removeChild(textArea);
+            }
         }
         
         function showToast(message, type = 'info') {
